@@ -3,11 +3,15 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
 import { AuthProvider } from '@/contexts/auth-context';
 import { ProgressoProvider } from '@/contexts/progresso-context';
 import { ToastProvider } from '@/contexts/toast-context';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
+/**
+ * RootLayout — layout raiz, envolve todo o app com os providers globais.
+ * Ordem importa: ProgressoProvider depende do AuthProvider para ler userId.
+ */
 export default function RootLayout() {
   const colorScheme = useColorScheme();
 

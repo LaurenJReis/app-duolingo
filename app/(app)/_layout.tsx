@@ -2,6 +2,7 @@ import { useAuth } from '@/contexts/auth-context';
 import { Redirect, Stack } from 'expo-router';
 import { ActivityIndicator, View } from 'react-native';
 
+// Guard de rota: redireciona para (auth) se não houver sessão ativa
 export default function AppLayout() {
   const { usuario, carregando } = useAuth();
 

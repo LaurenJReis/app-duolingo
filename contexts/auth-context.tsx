@@ -2,8 +2,9 @@ import { Usuario } from '@/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
-// ─── Tipos ────────────────────────────────────────────────────────────────────
-
+// Persistência local via AsyncStorage (sem backend):
+//   @duolingo:usuarios  → todos os cadastros
+//   @duolingo:usuario   → sessão ativa (sem senha)
 interface AuthContextData {
   usuario: Usuario | null;
   carregando: boolean;
@@ -36,7 +37,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [carregando, setCarregando] = useState(true);
 
-  // Ref para sempre ter o usuario mais atual dentro dos callbacks assíncronos
+// useRef paralelo ao useState: callbacks assíncronos usam a ref
+// para evitar ler valor desatualizado (closure stale)
   const usuarioRef = React.useRef<Usuario | null>(null);
   useEffect(() => {
     usuarioRef.current = usuario;
@@ -88,6 +90,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUsuario(u);
   }, []);
 
+  /**
+   * login — busca credenciais no storage e salva a sessão sem a senha.
+   * Lança erro se não encontrar → capturado pelo catch na tela de login.
+   */
   const login = useCallback(async (email: string, senha: string) => {
     const json = await AsyncStorage.getItem(STORAGE_KEY_USUARIOS);
     const usuarios: Array<Usuario & { senha: string }> = json ? JSON.parse(json) : [];

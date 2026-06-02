@@ -5,8 +5,10 @@ import React, { createContext, useCallback, useContext, useEffect, useState } fr
 import { useAuth } from './auth-context';
 import { useToast } from './toast-context';
 
-// ─── Tipos ────────────────────────────────────────────────────────────────────
-
+/**
+ * ProgressoContext — armazena e calcula o progresso nos cursos via AsyncStorage.
+ * Estrutura: progresso[cursoId][moduloId][licaoId] = { concluida, taxaAcerto, ... }
+ */
 interface ProgressoContextData {
   progresso: Record<string, ProgressoCurso>; // cursoId → progresso
   erros: ErroRegistrado[];
@@ -152,6 +154,7 @@ export function ProgressoProvider({ children }: { children: React.ReactNode }) {
     [salvarProgresso, atualizarUsuario]
   );
 
+  // Registra resultado, atualiza XP/streak e verifica conquistas desbloqueadas
   const concluirLicao = useCallback(
     async (licaoId: string, taxaAcerto: number) => {
       const u = usuarioRef.current;

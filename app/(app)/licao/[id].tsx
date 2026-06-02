@@ -5,21 +5,21 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import {
-    Animated,
-    Pressable,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    View,
+  Animated,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
 
 // ─── Tipos internos ───────────────────────────────────────────────────────────
 
 type EstadoResposta = 'aguardando' | 'correto' | 'incorreto';
 
-// ─── Componente principal ─────────────────────────────────────────────────────
-
+// acertosRef espelha o estado acertos para leitura segura em funções async
+// (evita closure stale: o callback leria o valor antigo do useState)
 export default function LicaoScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();

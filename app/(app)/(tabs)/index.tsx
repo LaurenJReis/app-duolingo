@@ -1,3 +1,9 @@
+import { useAuth } from '@/contexts/auth-context';
+import { useProgresso } from '@/contexts/progresso-context';
+import { cursos } from '@/data';
+import { Curso } from '@/types';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useRouter } from 'expo-router';
 import {
   FlatList,
   Pressable,
@@ -6,13 +12,11 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useRouter } from 'expo-router';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { useAuth } from '@/contexts/auth-context';
-import { useProgresso } from '@/contexts/progresso-context';
-import { cursos } from '@/data';
-import { Curso } from '@/types';
 
+/**
+ * HomeScreen — aba "Aprender". Lista cursos disponíveis com progresso.
+ * Ao pressionar: inicia o curso se necessário e navega para curso/[id].
+ */
 export default function HomeScreen() {
   const { usuario } = useAuth();
   const { getProgressoCurso, iniciarCurso, progresso } = useProgresso();

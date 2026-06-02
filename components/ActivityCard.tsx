@@ -1,13 +1,12 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
   Animated,
-  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 
 export interface Activity {
   id: string;
@@ -55,6 +54,10 @@ const getDifficultyLabel = (difficulty: string): string => {
   }
 };
 
+/**
+ * ActivityCard — card de atividade com 3 variantes: default, compact e large.
+ * Cor do gradiente varia por dificuldade; cartões bloqueados ficam em cinza.
+ */
 export const ActivityCard: React.FC<ActivityCardProps> = ({
   activity,
   onPress,
